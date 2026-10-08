@@ -1,0 +1,465 @@
+[
+    {
+        "id": "691a9f6d527e4dc0",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6783352bf3f905ee",
+        "type": "telegram sender",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "bot": "b85b15f06d284ace",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "17baac982c5f446a",
+        "type": "mqtt in",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "topic": "ahmed/gas_sensor/level",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "d03bd798a78eca60",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "40c1ef72fabe17fa",
+                "ffb7e5c89726c63b"
+            ]
+        ]
+    },
+    {
+        "id": "03e8813253db1a6a",
+        "type": "http request",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.callmebot.com/whatsapp.php?phone=967775134872&text=%D8%AA%D8%AD%D8%B0%D9%8A%D8%B1%3A+%D8%AA%D9%85+%D8%A7%D9%83%D8%AA%D8%B4%D8%A7%D9%81+%D8%AA%D8%B3%D8%B1%D8%A8+%D8%BA%D8%A7%D8%B2%21&apikey=7673591",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 630,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ffb7e5c89726c63b",
+        "type": "ui-gauge",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "group": "693b969b2cd4116d",
+        "order": 0,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "300",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "600",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "1000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 350,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "40c1ef72fabe17fa",
+        "type": "switch",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "400",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "03e8813253db1a6a",
+                "646c538f171522c0",
+                "2fa43fa6e559350d"
+            ]
+        ]
+    },
+    {
+        "id": "646c538f171522c0",
+        "type": "change",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.type",
+                "pt": "msg",
+                "to": "message",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.content",
+                "pt": "msg",
+                "to": "⚠️ تحذير: تم اكتشاف تسرب غاز خطير!",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.chatId",
+                "pt": "msg",
+                "to": "2006334370",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 160,
+        "wires": [
+            [
+                "6783352bf3f905ee"
+            ]
+        ]
+    },
+    {
+        "id": "2fa43fa6e559350d",
+        "type": "change",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "⚠️ تحذير طارئ: تم اكتشاف تسرب غاز في النظام ويجب التحقق فوراً!",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "🚨 إنذار خطر - تسرب غاز",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "3052f944f333da69"
+            ]
+        ]
+    },
+    {
+        "id": "3052f944f333da69",
+        "type": "e-mail",
+        "z": "691a9f6d527e4dc0",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "engineeriot8@gmail.com",
+        "dname": "",
+        "x": 910,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1377c18f0564cb4f",
+        "type": "inject",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "500",
+        "payloadType": "num",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "40c1ef72fabe17fa"
+            ]
+        ]
+    },
+    {
+        "id": "c5a1871b2f406a7e",
+        "type": "ui-switch",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "label": "تحكم بالجرس",
+        "group": "693b969b2cd4116d",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 160,
+        "y": 340,
+        "wires": [
+            [
+                "6dfa1bc273466dbd"
+            ]
+        ]
+    },
+    {
+        "id": "6dfa1bc273466dbd",
+        "type": "mqtt out",
+        "z": "691a9f6d527e4dc0",
+        "name": "",
+        "topic": "ahmed/buzzer_control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d03bd798a78eca60",
+        "x": 400,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b85b15f06d284ace",
+        "type": "telegram bot",
+        "botname": "GasAlertBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "d03bd798a78eca60",
+        "type": "mqtt-broker",
+        "name": "localhost",
+        "broker": "127.0.0.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "693b969b2cd4116d",
+        "type": "ui-group",
+        "name": "Group مستشعرات الغازName",
+        "page": "3f897fbb312abd9a",
+        "width": 6,
+        "height": 1,
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "3f897fbb312abd9a",
+        "type": "ui-page",
+        "name": "لوحة التحكم",
+        "ui": "315fdc663233dda0",
+        "path": "/page2",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "default",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "315fdc663233dda0",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "960d33d25f033c62",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-telegrambot": "19.0.3",
+            "@flowfuse/node-red-dashboard": "1.31.0",
+            "node-red-node-email": "5.2.5"
+        }
+    }
+]
